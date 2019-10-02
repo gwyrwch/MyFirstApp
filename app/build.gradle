@@ -1,7 +1,66 @@
 apply plugin: 'com.android.application'
 
 //def
-// /// /////
+// /// ///////
+//class Version {
+//    def major = "0"
+//    def minor = "0"
+//    def patch = "0"
+//
+//    Version() {
+//        this.setVersion()
+//    }
+//
+//    def getVersion() {
+//        return "${major}.${minor}.${patch}"
+//    }
+//
+//    def setVersion() {
+//        def command = "git describe --tags"
+//        def proc = command.execute()
+//        proc.waitFor()
+//
+//        def (mm, p, _) = proc.in.text.split("-")
+//        def (major, minor) = mm.split(".")
+//
+//        this.major = major
+//        this.minor = minor
+//        this.patch = p
+//    }
+//}
+
+def getVersionName() {
+    def command = "git describe --tags"
+    def proc = command.execute()
+    proc.waitFor()
+
+    def result = proc.in.text
+    if (result.contains('-')) {
+        def (mm, p, _) = result.split('-')
+        return "${mm}.${p}"
+    }
+
+    return result.trim()
+
+
+}
+
+
+//def getVersionName = { ->
+//    def hashStdOut = new ByteArrayOutputStream()
+//    exec {
+//        commandLine "git", "rev-parse", "--short", "HEAD"
+//        standardOutput = hashStdOut
+//    }
+//
+//    def buildNumberStdOut = new ByteArrayOutputStream()
+//    exec {
+//        commandLine 'echo', "$BUILD_NUMBER"
+//        standardOutput = buildNumberStdOut
+//    }
+//    return buildNumberStdOut.toString().trim() + '-' + hashStdOut.toString().trim()
+//}
+
 
 android {
     compileSdkVersion 29
@@ -11,7 +70,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.0"
+        versionName getVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
