@@ -29,19 +29,22 @@ apply plugin: 'com.android.application'
 //    }
 //}
 
-def getVersionName() {
+def getVName() {
     def command = "git describe --tags"
     def proc = command.execute()
     proc.waitFor()
 
-    def result = proc.in.text
-    if (result.contains('-')) {
-        def (mm, p, _) = result.split('-')
+    def res = proc.in.text
+
+    if (res.contains('-')) {
+        def (mm, p, _) = res.split('-')
+//    def (major, minor) = mm.split('.')
+
         return "${mm}.${p}"
     }
-
-    return result.trim()
-
+    else {
+        return res
+    }
 
 }
 
@@ -54,7 +57,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName getVersionName()
+        versionName getVName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
