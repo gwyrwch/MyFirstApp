@@ -46,22 +46,6 @@ def getVersionName() {
 }
 
 
-//def getVersionName = { ->
-//    def hashStdOut = new ByteArrayOutputStream()
-//    exec {
-//        commandLine "git", "rev-parse", "--short", "HEAD"
-//        standardOutput = hashStdOut
-//    }
-//
-//    def buildNumberStdOut = new ByteArrayOutputStream()
-//    exec {
-//        commandLine 'echo', "$BUILD_NUMBER"
-//        standardOutput = buildNumberStdOut
-//    }
-//    return buildNumberStdOut.toString().trim() + '-' + hashStdOut.toString().trim()
-//}
-
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
