@@ -43,7 +43,7 @@ def getVName() {
         return "${mm}.${p}"
     }
     else {
-        return res
+        return res.trim()
     }
 
 }
