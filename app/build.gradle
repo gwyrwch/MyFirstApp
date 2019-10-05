@@ -29,7 +29,7 @@ apply plugin: 'com.android.application'
 //    }
 //}
 
-def getVName() {
+static def getVName() {
     def command = "git describe --tags"
     def proc = command.execute()
     proc.waitFor()
@@ -38,7 +38,6 @@ def getVName() {
 
     if (res.contains('-')) {
         def (mm, p, _) = res.split('-')
-//    def (major, minor) = mm.split('.')
 
         return "${mm}.${p}"
     }
@@ -75,4 +74,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'com.google.android.material:material:1.0.0'
 }
