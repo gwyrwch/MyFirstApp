@@ -29,6 +29,40 @@ apply plugin: 'com.android.application'
 //    }
 //}
 
+class VersionName {
+    def major = "0"
+    def minor = "0"
+    def patch = "0"
+    static def version = ""
+
+    VersionName() {
+        version = setVersion()
+    }
+
+     static def getVersion() {
+//        return "${major}.${minor}.${patch}"
+         return version
+    }
+
+    static def setVersion() {
+        def command = "git describe --tags"
+        def proc = command.execute()
+        proc.waitFor()
+
+        def res = proc.in.text
+
+        if (res.contains('-')) {
+            def (mm, p, _) = res.split('-')
+
+            return "${mm}.${p}"
+        }
+        else {
+            return res.trim()
+        }
+
+    }
+}
+
 static def getVName() {
     def command = "git describe --tags"
     def proc = command.execute()
@@ -47,6 +81,10 @@ static def getVName() {
 
 }
 
+static def abc() {
+    return (new VersionName()).getVersion();
+}
+
 
 android {
     compileSdkVersion 29
@@ -56,7 +94,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName getVName()
+        versionName abc()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
