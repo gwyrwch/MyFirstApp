@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }).show();
         } else {
-            // самый первый запуск, когда еще ни разу не было deny
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_PHONE_STATE}, PERMISSIONS_REQUEST_DEVICE_ID);
         }

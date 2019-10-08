@@ -24,9 +24,9 @@ class Version {
             def (mm, p, _) = res.split('-')
             patch = p as Integer
 
-            def kek = mm.split('[.]')
-            major = kek[0] as Integer
-            minor = kek[1] as Integer
+            def temp = mm.split('[.]')
+            major = temp[0] as Integer
+            minor = temp[1] as Integer
 
             return "${mm}.${p}"
         }
@@ -49,7 +49,6 @@ android {
         applicationId "com.example.myfirstapp"
         minSdkVersion 23
         targetSdkVersion 29
-//        todo: make a method for code versionning
         versionCode version.versionCode
         versionName version.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
