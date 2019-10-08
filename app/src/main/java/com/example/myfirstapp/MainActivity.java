@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int PERMISSIONS_REQUEST_DEVICE_ID = 0;
     View mainLayout;
+    TextView deviceIdTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity
 
         TextView versionName = findViewById(R.id.textName);
         versionName.setText("version : " + BuildConfig.VERSION_NAME);
-
+        deviceIdTextView = findViewById(R.id.textId);
+        deviceIdTextView.setText("id: ");
 
         showDeviceId();
     }
@@ -78,22 +80,17 @@ public class MainActivity extends AppCompatActivity
                 }
             }).show();
         } else {
-            Snackbar.make(mainLayout, R.string.device_id_not_available, Snackbar.LENGTH_SHORT).show();
-            // Request the permission. The result will be received in onRequestPermissionResult().
+            // самый первый запуск, когда еще ни разу не было deny
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_PHONE_STATE}, PERMISSIONS_REQUEST_DEVICE_ID);
         }
     }
 
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     private void outputDeviceId() {
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        TextView deviceIdTextView = findViewById(R.id.textId);
 
-        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
+        // security check skipped because it has already been checked
         assert telephonyManager != null;
         deviceIdTextView.setText(String.format("id : %s", telephonyManager.getDeviceId()));
     }
